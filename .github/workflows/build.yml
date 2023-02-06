@@ -159,13 +159,12 @@ jobs:
         if: ${{ env.commit }}
         with:
           name: ${{ env.tag }}
+          token: ${{ secrets.ACTIONS_KEY }}
           tag_name: ${{ env.tag }}_${{ matrix.userName }}
           body_path: TVBoxOSC/Changelog.txt
           files: |
             TVBoxOSC/apk/*
             TVBoxOSC/${{ matrix.userName }}_${{ env.commit_id }}_src.zip
-        env:
-          GITHUB_TOKEN: ${{ secrets.ACTIONS_KEY }}
 
       - name: Commit And Push
         if: ${{ env.commit }}
