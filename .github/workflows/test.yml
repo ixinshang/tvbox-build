@@ -2,7 +2,7 @@ name: Build_Test
 
 on:
   schedule:
-    - cron: 10 10 * * *
+    - cron: 10 7 * * *
 #  push:
 #    branches:
 #      - main
