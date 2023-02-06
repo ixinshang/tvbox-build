@@ -1,8 +1,8 @@
-name: Build
+name: Build_Backup
 
 on:
   schedule:
-    - cron: 10,40 0-15,23 * * *
+    - cron: 10 10 * * *
 #  push:
 #    branches:
 #      - main
@@ -11,7 +11,7 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    timeout-minutes: 10 # 自己加时间  
+    timeout-minutes: 10 # 自己加时间
     strategy:
       fail-fast: false
       matrix:
@@ -46,8 +46,6 @@ jobs:
       - name: Get The Last Commit
         working-directory: actions
         run: |
-          sudo timedatectl set-timezone "$TZ"
-          echo "FILE_DATE=$(date +"%Y%m%d%H%M")" >> $GITHUB_ENV
           commit=$(curl -sL ${{ matrix.repoUrl }}/commits/${{ matrix.branchName }} |grep -o '/commit/[a-z0-9]\+' |head -1 | cut -d\/ -f3)
           # if ! git log --oneline |grep -q "$commit"; then
           if ! grep -q "$commit" ./log/${{ matrix.userName }}.txt; then
@@ -163,12 +161,13 @@ jobs:
         if: ${{ env.commit }}
         with:
           name: ${{ matrix.userName }}_${{ env.tag }}
-          token: ${{ secrets.ACTIONS_KEY }}
           tag_name: ${{ matrix.userName }}_${{ env.tag }}
           body_path: TVBoxOSC/Changelog.txt
           files: |
             TVBoxOSC/apk/*
             TVBoxOSC/${{ matrix.userName }}_${{ env.commit_id }}_src.zip
+        env:
+          GITHUB_TOKEN: ${{ secrets.ACTIONS_KEY }}
 
       - name: Commit And Push
         if: ${{ env.commit }}
