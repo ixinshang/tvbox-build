@@ -1,4 +1,4 @@
-name: Build
+name: Build_Backup
 
 on:
   schedule:
@@ -165,7 +165,7 @@ jobs:
             TVBoxOSC/apk/*
             TVBoxOSC/${{ matrix.userName }}_${{ env.commit_id }}_src.zip
         env:
-          GITHUB_TOKEN: ${{ secrets.ACTIONS_KEY }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Commit And Push
         if: ${{ env.commit }}
