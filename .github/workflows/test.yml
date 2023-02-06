@@ -191,3 +191,11 @@ jobs:
           python3 ${{ github.workspace }}/actions/.github/scripts/lzy_web.py \
           "${{ github.workspace }}/TVBoxOSC/apk/TVBox_${{ matrix.userName }}_${{ env.tag }}.apk" "$lanzou_folder_id"
           echo "share address: https://wwi.lanzoup.com/b0dah3rlc  password:celetor"
+# Test
+      - name: Upload App To Artifact
+        uses: actions/upload-artifact@v3
+        if: ${{ env.commit }}
+        with:
+          name: TVBox_${{ matrix.userName }}-${{ env.tag }}
+          path: |
+            TVBoxOSC/apk/*
